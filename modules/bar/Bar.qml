@@ -205,6 +205,11 @@ Item {
         id: centerSection
 
         values: root.Config.bar.entries.center.values
+
+        // Sit in the middle of the free space between the start and end sections,
+        // matching upstream's paired spacers, so growing the end section pushes it up
+        x: root.isHorizontal ? startSection.x + startSection.width + (endSection.x - (startSection.x + startSection.width) - width) / 2 : (root.width - width) / 2
+        y: root.isHorizontal ? (root.height - height) / 2 : startSection.y + startSection.height + (endSection.y - (startSection.y + startSection.height) - height) / 2
     }
 
     EntrySection {
@@ -221,11 +226,6 @@ Item {
             AnchorChanges {
                 target: startSection
                 anchors.left: parent.left
-                anchors.verticalCenter: parent.verticalCenter
-            }
-            AnchorChanges {
-                target: centerSection
-                anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
             }
             AnchorChanges {
@@ -252,11 +252,6 @@ Item {
                 target: startSection
                 anchors.top: parent.top
                 anchors.horizontalCenter: parent.horizontalCenter
-            }
-            AnchorChanges {
-                target: centerSection
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.verticalCenter: parent.verticalCenter
             }
             AnchorChanges {
                 target: endSection

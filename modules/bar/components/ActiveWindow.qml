@@ -28,19 +28,13 @@ Item {
     }
 
     readonly property int maxSize: {
+        // The free gap between the start and end sections: the same space the
+        // centre section is centred in, so the title never grows into them
         const start = bar.sections[0];
         const end = bar.sections[2];
-        if (bar.isHorizontal) {
-            const availLeft = bar.width / 2 - (start.x + start.width);
-            const availRight = end.x - bar.width / 2;
-            const availCenter = 2 * Math.min(availLeft, availRight);
-            return Math.max(0, availCenter - bar.spacing * 2);
-        } else {
-            const availTop = bar.height / 2 - (start.y + start.height);
-            const availBottom = end.y - bar.height / 2;
-            const availCenter = 2 * Math.min(availTop, availBottom);
-            return Math.max(0, availCenter - bar.spacing * 2);
-        }
+        if (bar.isHorizontal)
+            return Math.max(0, end.x - (start.x + start.width) - bar.spacing * 2);
+        return Math.max(0, end.y - (start.y + start.height) - bar.spacing * 2);
     }
     property Title current: text1
 
