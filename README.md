@@ -17,6 +17,19 @@
 > [!NOTE]
 > This is a fork of the official [caelestia-shell](https://github.com/caelestia-dots/shell) with additional features. All new features are listed below.
 
+## Changes in this fork
+
+This repository is [NanKillBro's](https://github.com/NanKillBro) fork of
+[dim-ghub/midnight-shell](https://github.com/dim-ghub/midnight-shell). It contains everything from
+that fork plus:
+
+| Change | Detail | Commit |
+| --- | --- | --- |
+| **Bar — active-window position** ([issue #58](https://github.com/dim-ghub/midnight-shell/issues/58)) | The centre section floats in the free gap between the start and end sections instead of being pinned to the bar's midpoint, so it rises as the tray/clock/power group grows — matching upstream caelestia's behaviour. The title's elision width is derived from the same gap, so titles no longer truncate to `Desk...`. | [`8d76a07d`](https://github.com/NanKillBro/midnight-shell/commit/8d76a07d) |
+| **Launcher — uwsm** | Apps launched from the launcher run through `uwsm app --`, so they register with the systemd user session. The non-terminal path replaces `entry.execute()`, which only forwarded the command to `Quickshell.execDetached`, so behaviour is otherwise unchanged. | [`a2031eab`](https://github.com/NanKillBro/midnight-shell/commit/a2031eab) |
+
+The "Fork Features" section below describes what dim-ghub's fork adds on top of caelestia.
+
 
 https://github.com/user-attachments/assets/774a8872-4d95-45b9-a4b6-409d8394dadc
 
