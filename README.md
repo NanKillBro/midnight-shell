@@ -27,6 +27,7 @@ that fork plus:
 | --- | --- | --- |
 | **Bar — active-window position** ([issue #58](https://github.com/dim-ghub/midnight-shell/issues/58)) | The centre section floats in the free gap between the start and end sections instead of being pinned to the bar's midpoint, so it rises as the tray/clock/power group grows — matching upstream caelestia's behaviour. The title's elision width is derived from the same gap, so titles no longer truncate to `Desk...`. | [`8d76a07d`](https://github.com/NanKillBro/midnight-shell/commit/8d76a07d) |
 | **Launcher — uwsm** | Apps launched from the launcher run through `uwsm app --`, so they register with the systemd user session. The non-terminal path replaces `entry.execute()`, which only forwarded the command to `Quickshell.execDetached`, so behaviour is otherwise unchanged. | [`a2031eab`](https://github.com/NanKillBro/midnight-shell/commit/a2031eab) |
+| **Utilities — popup stability** | The utilities panel content loads synchronously and stays loaded once ready (`status === Loader.Ready`) instead of being an async loader destroyed on every close. The panel height and slide animation derive from the content, so previously every open slid up as a ~22px stub and popped a second time when the async content landed ~200–260 ms later (seconds under CPU load). | [`02c3ccb0`](https://github.com/NanKillBro/midnight-shell/commit/02c3ccb0) |
 
 The "Fork Features" section below describes what dim-ghub's fork adds on top of caelestia.
 
