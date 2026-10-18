@@ -4,3 +4,7 @@
 build/
 .cache/
 logs
+/src/
+/pkg/
+/midnight-shell-git/
+/midnight-shell-git-*.pkg.tar.*
