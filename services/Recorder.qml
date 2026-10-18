@@ -48,7 +48,7 @@ Singleton {
 
         running: true
         command: ["pidof", "gpu-screen-recorder"]
-        onExited: code => { // qmllint disable signal-handler-parameters
+        onExited: code => {
             const running = code === 0;
 
             // All CLI invocations are detached: an attached child inherits the

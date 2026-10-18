@@ -167,9 +167,7 @@ QtObject {
         }
 
         function onActionsChanged(): void {
-            // qmllint disable unresolved-type
-            notif.actions = notif.notification.actions.map(a => ({
-                        // qmllint enable unresolved-type
+            notif.actions = (notif.notification.actions as Array).map(a => ({
                         identifier: a.identifier,
                         text: a.text,
                         invoke: () => a.invoke()
@@ -243,9 +241,8 @@ QtObject {
         urgency = notification.urgency;
         resident = notification.resident;
         hasActionIcons = notification.hasActionIcons;
-        // qmllint disable unresolved-type
-        actions = notification.actions.map(a => ({
-                    // qmllint enable unresolved-type
+
+        actions = (notification.actions as Array).map(a => ({
                     identifier: a.identifier,
                     text: a.text,
                     invoke: () => a.invoke()

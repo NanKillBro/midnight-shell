@@ -43,9 +43,9 @@ Item {
         MaterialIcon {
             animate: true
             text: {
-                if (!Bluetooth.defaultAdapter?.enabled) // qmllint disable unresolved-type
+                if (!Bluetooth.defaultAdapter?.enabled)
                     return "bluetooth_disabled";
-                if (Bluetooth.devices.values.some(d => d.connected)) // qmllint disable unresolved-type
+                if (Bluetooth.devices.values.some(d => d.connected))
                     return "bluetooth_connected";
                 return "bluetooth";
             }
@@ -55,7 +55,7 @@ Item {
         // Connected bluetooth devices
         Repeater {
             model: ScriptModel {
-                values: Bluetooth.devices.values.filter(d => d.state !== BluetoothDeviceState.Disconnected) // qmllint disable unresolved-type
+                values: Bluetooth.devices.values.filter(d => d.state !== BluetoothDeviceState.Disconnected)
             }
 
             MaterialIcon {
@@ -69,7 +69,7 @@ Item {
                 fill: 1
 
                 SequentialAnimation on opacity {
-                    running: device.modelData?.state !== BluetoothDeviceState.Connected // qmllint disable unresolved-type
+                    running: device.modelData?.state !== BluetoothDeviceState.Connected
                     alwaysRunToEnd: true
                     loops: Animation.Infinite
 

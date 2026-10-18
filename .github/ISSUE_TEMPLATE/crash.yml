@@ -37,6 +37,7 @@ body:
     attributes:
       label: Version info
       description: Run `caelestia -v` and paste the result below.
+      placeholder: "Paste the output of `caelestia -v` here!"
       value: |
         <details><summary>Version info</summary>
 
