@@ -199,5 +199,4 @@ Item {
             anchors.fill: parent
             visible: Config.dashboard.useMediaShapes
         }
-    }
 }

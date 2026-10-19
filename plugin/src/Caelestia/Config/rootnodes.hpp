@@ -13,6 +13,7 @@
 #include "borderconfig.hpp"
 #include "common.hpp"
 #include "dashboardconfig.hpp"
+#include "font.hpp"
 #include "generalconfig.hpp"
 #include "launcherconfig.hpp"
 #include "lockconfig.hpp"
@@ -57,9 +58,13 @@ class ConfigRoot : public settings::RootNode {
 public:
     explicit ConfigRoot(const QString& path, ConfigRoot* fallback = nullptr, QObject* parent = nullptr);
 
+    [[nodiscard]] const FontTokens* fontTokens() const;
+
 private:
-    // Binds the computed appearance values to the global token base values
+    // Binds computed values to the global token base values
     void bindTokens();
+
+    FontTokens* const m_fontTokens;
 };
 
 class TokensRoot : public settings::RootNode {
