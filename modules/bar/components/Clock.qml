@@ -21,7 +21,7 @@ StyledRect {
         const hourW = hourMetrics?.width ?? metricWidth;
         const minW = minMetrics?.width ?? metricWidth;
         const scale = text === "11" ? 1.15 : Math.min(1.05, Math.max(hourW, minW) / metricWidth);
-        return root.font.width(scale * 100).letterSpacing(scale).build();
+        return Tokens.font.body.builders.small.scale(1.1).width(scale * 100).letterSpacing(scale).build();
     }
 
     readonly property bool isHorizontal: Config.bar.position === "top" || Config.bar.position === "bottom"
