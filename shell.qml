@@ -46,6 +46,7 @@ ShellRoot {
         id: lock
     }
     PolkitModule {}
+    UnmaintainedNotice {}
 
     Variants {
         model: Quickshell.screens.filter(s => (GlobalConfig.shimeji?.enabled ?? false) && (GlobalConfig.shimeji?.path?.length ?? 0) > 0 && !Strings.testRegexList(GlobalConfig.shimeji?.excludedScreens ?? [], s.name))
