@@ -9,15 +9,15 @@ Scope {
 
     Connections {
         function onInhibitIdleChanged(): void {
-            if (RuntimeState.inhibitIdle)
-                RuntimeState.inhibitingIdleSince = new Date().getTime();
+            if (PersistentState.inhibitIdle)
+                PersistentState.inhibitingIdleSince = new Date().getTime();
         }
 
-        target: RuntimeState
+        target: PersistentState
     }
 
     IdleInhibitor {
-        enabled: RuntimeState.inhibitIdle
+        enabled: PersistentState.inhibitIdle
         window: PanelWindow {
             implicitWidth: 0
             implicitHeight: 0
@@ -28,19 +28,19 @@ Scope {
 
     IpcHandler {
         function isEnabled(): bool {
-            return RuntimeState.inhibitIdle;
+            return PersistentState.inhibitIdle;
         }
 
         function toggle(): void {
-            RuntimeState.inhibitIdle = !RuntimeState.inhibitIdle;
+            PersistentState.inhibitIdle = !PersistentState.inhibitIdle;
         }
 
         function enable(): void {
-            RuntimeState.inhibitIdle = true;
+            PersistentState.inhibitIdle = true;
         }
 
         function disable(): void {
-            RuntimeState.inhibitIdle = false;
+            PersistentState.inhibitIdle = false;
         }
 
         target: "idleInhibitor"

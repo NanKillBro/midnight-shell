@@ -10,7 +10,7 @@ import qs.services
 StyledRect {
     id: root
 
-    readonly property real nonAnimHeight: layout.implicitHeight + (RuntimeState.inhibitIdle ? activeChip.implicitHeight + activeChip.anchors.topMargin : 0) + Tokens.padding.extraLargeIncreased
+    readonly property real nonAnimHeight: layout.implicitHeight + (PersistentState.inhibitIdle ? activeChip.implicitHeight + activeChip.anchors.topMargin : 0) + Tokens.padding.extraLargeIncreased
 
     implicitHeight: nonAnimHeight
 
@@ -32,14 +32,14 @@ StyledRect {
             implicitHeight: icon.implicitHeight + Tokens.padding.large
 
             radius: Tokens.rounding.full
-            color: RuntimeState.inhibitIdle ? Colours.palette.m3secondary : Colours.palette.m3secondaryContainer
+            color: PersistentState.inhibitIdle ? Colours.palette.m3secondary : Colours.palette.m3secondaryContainer
 
             MaterialIcon {
                 id: icon
 
                 anchors.centerIn: parent
                 text: "coffee"
-                color: RuntimeState.inhibitIdle ? Colours.palette.m3onSecondary : Colours.palette.m3onSecondaryContainer
+                color: PersistentState.inhibitIdle ? Colours.palette.m3onSecondary : Colours.palette.m3onSecondaryContainer
                 fontStyle: Tokens.font.icon.large
             }
         }
@@ -57,7 +57,7 @@ StyledRect {
 
             StyledText {
                 Layout.fillWidth: true
-                text: RuntimeState.inhibitIdle ? Tr.trCtx("Preventing sleep mode", "idle inhibitor") : Tr.trCtx("Normal power management", "idle inhibitor")
+                text: PersistentState.inhibitIdle ? Tr.trCtx("Preventing sleep mode", "idle inhibitor") : Tr.trCtx("Normal power management", "idle inhibitor")
                 color: Colours.palette.m3onSurfaceVariant
                 font: Tokens.font.body.small
                 elide: Text.ElideRight
@@ -65,8 +65,8 @@ StyledRect {
         }
 
         StyledSwitch {
-            checked: RuntimeState.inhibitIdle
-            onToggled: RuntimeState.inhibitIdle = checked
+            checked: PersistentState.inhibitIdle
+            onToggled: PersistentState.inhibitIdle = checked
         }
     }
 
@@ -77,11 +77,11 @@ StyledRect {
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.topMargin: Tokens.spacing.large
-        anchors.bottomMargin: RuntimeState.inhibitIdle ? Tokens.padding.large : -implicitHeight
+        anchors.bottomMargin: PersistentState.inhibitIdle ? Tokens.padding.large : -implicitHeight
         anchors.leftMargin: Tokens.padding.large
 
-        opacity: RuntimeState.inhibitIdle ? 1 : 0
-        scale: RuntimeState.inhibitIdle ? 1 : 0.5
+        opacity: PersistentState.inhibitIdle ? 1 : 0
+        scale: PersistentState.inhibitIdle ? 1 : 0.5
 
         Component.onCompleted: active = Qt.binding(() => opacity > 0)
 
@@ -97,7 +97,7 @@ StyledRect {
 
                 anchors.centerIn: parent
                 // TRANSLATORS: %1 = a clock time, e.g. 14:30
-                text: Tr.tr("Active since %1").arg(Qt.formatTime(new Date(RuntimeState.inhibitingIdleSince), Units.twelveHourClock ? "hh:mm a" : "hh:mm"))
+                text: Tr.tr("Active since %1").arg(Qt.formatTime(new Date(PersistentState.inhibitingIdleSince), Units.twelveHourClock ? "hh:mm a" : "hh:mm"))
                 color: Colours.palette.m3onPrimary
                 font: Tokens.font.body.builders.small.size(Math.round(Tokens.font.body.small.pointSize * 0.9)).build()
             }
