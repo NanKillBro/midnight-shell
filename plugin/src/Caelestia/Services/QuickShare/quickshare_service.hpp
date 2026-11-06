@@ -9,7 +9,7 @@
 #include "QuickShareConnection.hpp"
 #include "QuickShareBle.hpp"
 
-namespace caelestia::services {
+namespace caelestia::shell::services {
 
 class QuickShareService : public QObject {
     Q_OBJECT
@@ -81,4 +81,4 @@ private:
     QuickShareConnection* m_pendingIncomingConnection = nullptr;
 };
 
-} // namespace caelestia::services
+} // namespace caelestia::shell::services

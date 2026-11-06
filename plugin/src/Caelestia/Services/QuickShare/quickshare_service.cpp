@@ -11,7 +11,7 @@
 
 using Qt::StringLiterals::operator""_s;
 
-namespace caelestia::services {
+namespace caelestia::shell::services {
 
 QuickShareService::QuickShareService(QObject* parent)
     : QObject(parent), m_discovery(new QuickShareDiscovery(this)), 
@@ -261,4 +261,4 @@ void QuickShareService::saveHistory() {
     }
 }
 
-} // namespace caelestia::services
+} // namespace caelestia::shell::services

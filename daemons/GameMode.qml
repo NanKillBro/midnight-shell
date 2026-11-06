@@ -13,8 +13,11 @@ Scope {
     id: root
 
     readonly property bool enabled: RuntimeState.gameMode
-
     property bool _autoEnabled: false
+
+    function applyGameMode(): void {
+        root.setDynamicConfs();
+    }
 
     function evaluateAutoEnable(): void {
         const regexes = GlobalConfig.utilities.gameMode.autoEnableRegexes;
@@ -40,30 +43,35 @@ Scope {
         }
     }
 
-    Timer {
-        interval: 500
-        repeat: true
-        running: true
-        onTriggered: root.evaluateAutoEnable()
-    }
-
-    Connections {
-        target: GlobalConfig.utilities.gameMode
-        function onAutoEnableChanged(): void { root.evaluateAutoEnable(); }
-        function onAutoEnableRegexesChanged(): void { root.evaluateAutoEnable(); }
-    }
-
     function setDynamicConfs(): void {
         const gameModeConfig = GlobalConfig.utilities.gameMode;
-        let options = {};
-        if (gameModeConfig.disableHyprlandAnimations) options["animations:enabled"] = 0;
-        if (gameModeConfig.disableHyprlandShadows) options["decoration:shadow:enabled"] = 0;
-        if (gameModeConfig.disableHyprlandBlur) options["decoration:blur:enabled"] = 0;
+
+        // The options map provides the base set of Hyprland overrides; the
+        // per-option toggles below take precedence over their respective keys.
+        let options = Object.assign({}, gameModeConfig.options);
+
+        if (gameModeConfig.disableHyprlandAnimations)
+            options["animations:enabled"] = 0;
+        else
+            delete options["animations:enabled"];
+        if (gameModeConfig.disableHyprlandShadows)
+            options["decoration:shadow:enabled"] = 0;
+        else
+            delete options["decoration:shadow:enabled"];
+        if (gameModeConfig.disableHyprlandBlur)
+            options["decoration:blur:enabled"] = 0;
+        else
+            delete options["decoration:blur:enabled"];
         if (gameModeConfig.disableHyprlandGaps) {
             options["general:gaps_in"] = 0;
             options["general:gaps_out"] = 0;
             options["general:border_size"] = 1;
             options["decoration:rounding"] = 0;
+        } else {
+            delete options["general:gaps_in"];
+            delete options["general:gaps_out"];
+            delete options["general:border_size"];
+            delete options["decoration:rounding"];
         }
         options["general:allow_tearing"] = 1;
 
@@ -71,6 +79,10 @@ Scope {
             options["decoration:active_opacity"] = 1;
             options["decoration:inactive_opacity"] = 1;
             options["decoration:fullscreen_opacity"] = 1;
+        } else {
+            delete options["decoration:active_opacity"];
+            delete options["decoration:inactive_opacity"];
+            delete options["decoration:fullscreen_opacity"];
         }
 
         Hypr.extras.applyOptions(options);
@@ -82,6 +94,25 @@ Scope {
                 Hypr.extras.batchMessage([`keyword windowrulev2 opaque, class:.*`]);
             }
         }
+    }
+
+    Timer {
+        interval: 500
+        repeat: true
+        running: true
+        onTriggered: root.evaluateAutoEnable()
+    }
+
+    Connections {
+        function onAutoEnableChanged(): void {
+            root.evaluateAutoEnable();
+        }
+
+        function onAutoEnableRegexesChanged(): void {
+            root.evaluateAutoEnable();
+        }
+
+        target: GlobalConfig.utilities.gameMode
     }
 
     Connections {

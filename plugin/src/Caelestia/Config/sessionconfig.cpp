@@ -3,7 +3,7 @@
 #include <qjsonarray.h>
 #include <qjsonobject.h>
 
-namespace caelestia::config {
+namespace caelestia::shell::config {
 
 namespace {
 
@@ -257,4 +257,4 @@ QVariantList SessionConfig::customButtons() const {
     return result;
 }
 
-} // namespace caelestia::config
+} // namespace caelestia::shell::config

@@ -20,7 +20,7 @@ Q_LOGGING_CATEGORY(lcCUtils, "caelestia.cutils", QtInfoMsg)
 
 } // namespace
 
-namespace caelestia {
+namespace caelestia::shell {
 
 void CUtils::dependency(const QVariant& value) {
     Q_UNUSED(value);
@@ -274,4 +274,4 @@ bool CUtils::mkdirp(const QString& path) {
     return QDir().mkpath(path);
 }
 
-} // namespace caelestia
+} // namespace caelestia::shell

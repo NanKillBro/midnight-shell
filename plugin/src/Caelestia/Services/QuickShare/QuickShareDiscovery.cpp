@@ -10,7 +10,7 @@
 
 using Qt::StringLiterals::operator""_s;
 
-namespace caelestia::services {
+namespace caelestia::shell::services {
 
 QuickShareDiscovery::QuickShareDiscovery(QObject* parent)
     : QObject(parent), m_serverBrowser(nullptr), m_entryGroup(nullptr), m_tempAdvertiseTimer(new QTimer(this)) {
@@ -285,4 +285,4 @@ void QuickShareDiscovery::onItemRemove(int interface, int protocol, const QStrin
     emit deviceLost(name);
 }
 
-} // namespace caelestia::services
+} // namespace caelestia::shell::services

@@ -13,7 +13,7 @@
 
 using Qt::StringLiterals::operator""_s;
 
-namespace caelestia::services {
+namespace caelestia::shell::services {
 
 static QByteArray hkdfInternal(const EVP_MD* md, const QByteArray& salt, const QByteArray& ikm, const QByteArray& info, size_t outLen) {
     EVP_PKEY_CTX *pctx = EVP_PKEY_CTX_new_id(EVP_PKEY_HKDF, nullptr);
@@ -471,4 +471,4 @@ QByteArray QuickShareCrypto::decryptPayload(const QByteArray& ciphertextBytes) {
     return plaintext;
 }
 
-} // namespace caelestia::services
+} // namespace caelestia::shell::services

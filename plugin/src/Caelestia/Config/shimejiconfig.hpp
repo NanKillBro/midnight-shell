@@ -5,7 +5,7 @@
 
 #include <qstring.h>
 
-namespace caelestia::config {
+namespace caelestia::shell::config {
 
 class ShimejiConfig : public settings::ObjectNode {
     CONFIG_NODE(ShimejiConfig, settings::ObjectNode)
@@ -20,4 +20,4 @@ class ShimejiConfig : public settings::ObjectNode {
     CONFIG_PROPERTY(QVariantMap, screenCounts, {})
 };
 
-} // namespace caelestia::config
+} // namespace caelestia::shell::config

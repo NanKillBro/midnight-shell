@@ -4,7 +4,7 @@
 #include <QString>
 #include <openssl/evp.h>
 
-namespace caelestia::services {
+namespace caelestia::shell::services {
 
 class QuickShareCrypto {
 public:
@@ -56,4 +56,4 @@ private:
     QByteArray m_authString;
 };
 
-} // namespace caelestia::services
+} // namespace caelestia::shell::services

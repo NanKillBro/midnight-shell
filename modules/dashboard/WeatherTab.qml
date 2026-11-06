@@ -37,12 +37,12 @@ Item {
                 }
 
                 StyledText {
-                    text: new Date().toLocaleDateString(Qt.locale(), "dddd, MMMM d")
-                    font: Config.dashboard.showWeatherLocation !== false 
-                        ? Tokens.font.body.small 
+                    text: Tr.formatDateTime(new Date(), "dddd, MMMM d")
+                    font: Config.dashboard.showWeatherLocation !== false
+                        ? Tokens.font.body.small
                         : Tokens.font.body.builders.large.size(28).weight(Font.DemiBold).build()
-                    color: Config.dashboard.showWeatherLocation !== false 
-                        ? Colours.palette.m3onSurfaceVariant 
+                    color: Config.dashboard.showWeatherLocation !== false
+                        ? Colours.palette.m3onSurfaceVariant
                         : Colours.palette.m3onSurface
                 }
             }
@@ -173,7 +173,7 @@ Item {
 
                         StyledText {
                             Layout.alignment: Qt.AlignHCenter
-                            text: forecastItem.index === 0 ? Tr.trCtx("Today", "forecast column") : new Date(forecastItem.modelData.date).toLocaleDateString(Qt.locale(), "ddd")
+                            text: forecastItem.index === 0 ? Tr.trCtx("Today", "forecast column") : Tr.formatDateTime(new Date(forecastItem.modelData.date), "ddd")
                             font: Tokens.font.body.builders.medium.weight(Font.DemiBold).build()
                             color: Colours.palette.m3primary
                         }
@@ -181,7 +181,7 @@ Item {
                         StyledText {
                             Layout.topMargin: -Tokens.spacing.extraSmall
                             Layout.alignment: Qt.AlignHCenter
-                            text: new Date(forecastItem.modelData.date).toLocaleDateString(Qt.locale(), "MMM d")
+                            text: Tr.formatDateTime(new Date(forecastItem.modelData.date), "MMM d")
                             font: Tokens.font.body.small
                             opacity: 0.7
                             color: Colours.palette.m3onSurfaceVariant

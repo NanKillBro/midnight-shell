@@ -3,7 +3,7 @@
 #include "settings/objectnode.hpp"
 #include "common.hpp"
 
-namespace caelestia::config {
+namespace caelestia::shell::config {
 
 class AudioSounds : public settings::ObjectNode {
     CONFIG_NODE(AudioSounds, settings::ObjectNode)
@@ -28,4 +28,4 @@ class AudioConfig : public settings::ObjectNode {
     CONFIG_SUBOBJECT(AudioSounds, sounds)
 };
 
-} // namespace caelestia::config
+} // namespace caelestia::shell::config

@@ -2,11 +2,12 @@
 
 #include <qstring.h>
 #include <qvariantlist.h>
+#include <qvariantmap.h>
 
 #include "settings/objectnode.hpp"
 #include "common.hpp"
 
-namespace caelestia::config {
+namespace caelestia::shell::config {
 
 using Qt::StringLiterals::operator""_s;
 
@@ -61,6 +62,17 @@ class UtilitiesCards : public settings::ObjectNode {
 class UtilitiesGameMode : public settings::ObjectNode {
     CONFIG_NODE(UtilitiesGameMode, settings::ObjectNode)
 
+    CONFIG_PROPERTY(QVariantMap, options,
+        vmap({
+            { u"animations:enabled"_s, 0 },
+            { u"decoration:shadow:enabled"_s, 0 },
+            { u"decoration:blur:enabled"_s, 0 },
+            { u"general:gaps_in"_s, 0 },
+            { u"general:gaps_out"_s, 0 },
+            { u"general:border_size"_s, 1 },
+            { u"decoration:rounding"_s, 0 },
+            { u"general:allow_tearing"_s, 1 },
+        }))
     CONFIG_GLOBAL_PROPERTY(bool, disableHyprlandAnimations, true)
     CONFIG_GLOBAL_PROPERTY(bool, disableHyprlandBlur, true)
     CONFIG_GLOBAL_PROPERTY(bool, disableHyprlandGaps, true)
@@ -102,4 +114,4 @@ class UtilitiesConfig : public settings::ObjectNode {
         }))
 };
 
-} // namespace caelestia::config
+} // namespace caelestia::shell::config

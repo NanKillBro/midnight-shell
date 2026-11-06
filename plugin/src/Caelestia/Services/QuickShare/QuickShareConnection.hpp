@@ -5,7 +5,7 @@
 #include "QuickShareCrypto.hpp"
 #include "wire_format.pb.h"
 
-namespace caelestia::services {
+namespace caelestia::shell::services {
 
 class QuickShareConnection : public QObject {
     Q_OBJECT
@@ -82,4 +82,4 @@ private:
     bool m_fileTransferActive = false;
 };
 
-} // namespace caelestia::services
+} // namespace caelestia::shell::services

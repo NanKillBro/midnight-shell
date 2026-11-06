@@ -17,7 +17,7 @@ Q_LOGGING_CATEGORY(lcCacher, "caelestia.images.cacher", QtInfoMsg)
 
 } // namespace
 
-namespace caelestia::images {
+namespace caelestia::shell::images {
 
 using Qt::StringLiterals::operator""_s;
 
@@ -162,4 +162,4 @@ void ImageCacher::runJob(const QString& sourcePath, const QString& cachePath, co
     qCDebug(lcCacher).noquote() << "Saved to" << cachePath;
 }
 
-} // namespace caelestia::images
+} // namespace caelestia::shell::images

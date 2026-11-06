@@ -6,7 +6,7 @@
 #include <qstring.h>
 #include <qstringlist.h>
 
-namespace caelestia::config {
+namespace caelestia::shell::config {
 
 using Qt::StringLiterals::operator""_s;
 
@@ -46,4 +46,4 @@ class AiConfig : public settings::ObjectNode {
     CONFIG_PROPERTY(QStringList, recentModels, {})
 };
 
-} // namespace caelestia::config
+} // namespace caelestia::shell::config

@@ -7,7 +7,7 @@
 #include "settings/objectnode.hpp"
 #include "common.hpp"
 
-namespace caelestia::config {
+namespace caelestia::shell::config {
 
 using Qt::StringLiterals::operator""_s;
 
@@ -284,4 +284,4 @@ class AppearanceConfig : public settings::ObjectNode {
     CONFIG_GLOBAL_PROPERTY(bool, islands, false)
 };
 
-} // namespace caelestia::config
+} // namespace caelestia::shell::config

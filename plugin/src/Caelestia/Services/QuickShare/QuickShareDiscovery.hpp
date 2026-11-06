@@ -6,7 +6,7 @@
 #include <QDBusInterface>
 #include <QTimer>
 
-namespace caelestia::services {
+namespace caelestia::shell::services {
 
 struct QuickShareDevice {
     QString id;
@@ -50,4 +50,4 @@ private:
     bool m_isTempAdvertising = false;
 };
 
-} // namespace caelestia::services
+} // namespace caelestia::shell::services

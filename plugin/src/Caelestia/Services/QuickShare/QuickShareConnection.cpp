@@ -19,7 +19,7 @@
 
 using Qt::StringLiterals::operator""_s;
 
-namespace caelestia::services {
+namespace caelestia::shell::services {
 
 static void writeLengthPrefixed(QTcpSocket* socket, const QByteArray& data) {
     uint32_t length = qToBigEndian(static_cast<uint32_t>(data.size()));
@@ -797,4 +797,4 @@ void QuickShareConnection::onError(QAbstractSocket::SocketError socketError) {
     emit transferFinished(false);
 }
 
-} // namespace caelestia::services
+} // namespace caelestia::shell::services

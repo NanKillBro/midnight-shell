@@ -375,23 +375,19 @@ For example, to automatically hide the bar on the monitor named `DP-1`:
 >
 > <details><summary>Ignored options</summary>
 >
-> - `appearance` (`anim`, `transparency`)
-> - `general` (`logo`, `apps`, `idle`, `battery`)
-> - `bar.workspaces` (`perMonitorWorkspaces`, `specialWorkspaceIcons`, `windowIcons`, `wsIcons`)
-> - `bar.tray` (`iconSubs`, `hiddenIcons`)
-> - `dashboard` (`mediaUpdateInterval`, `resourceUpdateInterval`)
-> - `launcher` (`specialPrefix`, `actionPrefix`, `enableDangerousActions`, `vimKeybinds`,
->   `favouriteApps`, `hiddenApps`, `actions`)
-> - `launcher.useFuzzy` (`apps`, `actions`, `schemes`, `variants`, `wallpapers`)
-> - `notifs` (`expire`, `fullscreen`, `defaultExpireTimeout`, `fullscreenExpireTimeout`, `actionOnClick`)
-> - `lock` (`enableFprint`, `maxFprintTries`)
-> - `nexus` (`networkRescanInterval`)
-> - `utilities.toasts` (all except `fullscreen`)
-> - `utilities.vpn` (`enabled`, `provider`)
-> - `services` (`weatherLocation`, `useFahrenheit`, `useFahrenheitPerformance`, `useTwelveHourClock`,
->   `gpuType`, `visualiserBars`, `audioIncrement`, `brightnessIncrement`, `maxVolume`, `smartScheme`,
->   `defaultPlayer`, `playerAliases`, `lyricsBackend`)
-> - `paths` (`wallpaperDir`, `lyricsDir`)
+> - `appearance`: `anim.*`, `transparency.*`, `pitchBlack`, `islands`
+> - `audio`: all options
+> - `bar.tray`: `hiddenIcons`, `iconSubs`
+> - `bar.workspaces`: `ignoredTags`, `specialWorkspaceIcons`, `windowIcons`, `workspaceIcons`, `wsIcons`
+> - `dashboard`: `mediaUpdateInterval`, `profilePicShape`, `resourceUpdateInterval`
+> - `general`: `apps.*`, `battery.*`, `idle.*`, `language`, `logo`
+> - `launcher`: `actionPrefix`, `actions`, `emoji`, `enableDangerousActions`, `favouriteApps`, `hiddenApps`, `specialPrefix`, `useFuzzy.*`, `vimKeybinds`
+> - `lock`: `enableFprint`, `enableHowdy`, `maxFprintTries`, `maxHowdyTries`, `triggerHowdyOnWake`
+> - `nexus`: `networkRescanInterval`
+> - `notifs`: `actionOnClick`, `defaultExpireTimeout`, `expire`, `fullscreen`, `fullscreenExpireTimeout`
+> - `paths`: `lyricsDir`, `wallpaperDir`
+> - `services`: `audioIncrement`, `brightnessIncrement`, `clockFormat`, `dataUnits`, `defaultPlayer`, `gpuType`, `lyricsBackend`, `maxVolume`, `playerAliases`, `sensorUnits`, `smartScheme`, `visualiserBars`, `weatherLocation`, `weatherUnits`
+> - `utilities`: `gameMode.*`, `toasts.*`, `vpn.*`
 >
 > </details>
 
@@ -1355,6 +1351,30 @@ For example, to automatically hide the bar on the monitor named `DP-1`:
         "vpn": {
             "enabled": false,
             "provider": []
+        },
+        "gameMode": {
+            "autoEnable": true,
+            "autoEnableRegexes": [],
+            "disableDesktopLyrics": true,
+            "disableHyprlandAnimations": true,
+            "disableHyprlandBlur": true,
+            "disableHyprlandGaps": true,
+            "disableHyprlandShadows": true,
+            "disableShimeji": true,
+            "disableShellTransparency": true,
+            "disableToastTransparency": true,
+            "disableVisualizer": true,
+            "disableWindowTransparency": true,
+            "options": {
+                "animations:enabled": 0,
+                "decoration:blur:enabled": 0,
+                "decoration:rounding": 0,
+                "decoration:shadow:enabled": 0,
+                "general:allow_tearing": 1,
+                "general:border_size": 1,
+                "general:gaps_in": 0,
+                "general:gaps_out": 0
+            }
         }
     },
     "winfo": {}

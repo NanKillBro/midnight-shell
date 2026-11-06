@@ -6,7 +6,7 @@ using Qt::StringLiterals::operator""_s;
 
 #include <qfileinfo.h>
 
-namespace caelestia::images {
+namespace caelestia::shell::images {
 
 namespace {
 
@@ -81,4 +81,4 @@ bool IUtils::isVideo(const QString& path) {
     return videoExtensions.contains(suffix);
 }
 
-} // namespace caelestia::images
+} // namespace caelestia::shell::images

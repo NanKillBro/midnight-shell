@@ -7,7 +7,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
-namespace caelestia {
+namespace caelestia::shell {
 
 class DiscordIpc : public QObject {
     Q_OBJECT
@@ -49,4 +49,4 @@ private:
     QByteArray m_buffer;
 };
 
-} // namespace caelestia
+} // namespace caelestia::shell

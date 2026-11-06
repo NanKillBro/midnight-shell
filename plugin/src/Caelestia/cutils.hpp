@@ -6,7 +6,7 @@
 #include <qquickitem.h>
 #include <qvariant.h>
 
-namespace caelestia {
+namespace caelestia::shell {
 
 class CUtils : public QObject {
     Q_OBJECT
@@ -46,4 +46,4 @@ public:
     Q_INVOKABLE static bool mkdirp(const QString& path);
 };
 
-} // namespace caelestia
+} // namespace caelestia::shell

@@ -1,13 +1,12 @@
 import QtQuick
-import Quickshell
+import Caelestia
 import Caelestia.Config
 import Caelestia.Models
+import Caelestia.Multimedia
+import Caelestia.State
 import qs.components
 import qs.components.effects
-import qs.components.images
 import qs.services
-import qs.utils
-import Quickshell.Io
 
 Item {
     id: root
@@ -27,17 +26,9 @@ Item {
     implicitWidth: image.width + Tokens.padding.medium * 2
     implicitHeight: image.height + label.height + Tokens.spacing.extraSmall + Tokens.padding.large + Tokens.padding.medium
 
-    Process {
-        id: thumbGenerator
-        command: ["bash", "-c", `mkdir -p "$(dirname "${thumbImg.path.toString().replace("file://", "")}")" && ffmpeg -i "${root.modelData.path}" -vframes 1 -q:v 2 "${thumbImg.path.toString().replace("file://", "")}" -y`]
-        onExited: {
-            let oldSource = thumbImg.path;
-            thumbImg.path = "";
-            thumbImg.path = oldSource;
-        }
-    }
-
     StateLayer {
+        id: stateLayer
+
         radius: Tokens.rounding.large
         onClicked: {
             Wallpapers.setWallpaper(root.modelData.path);
@@ -74,25 +65,19 @@ Item {
             text: "image"
             color: Colours.tPalette.m3outline
             fontStyle: Tokens.font.icon.builders.extraLarge.scale(2).weight(Font.DemiBold).build()
-            visible: thumbImg.status !== Image.Ready
+            visible: !thumb.ready
         }
 
-        CachingImage {
-            id: thumbImg
+        Visual {
+            id: thumb
+
             anchors.fill: parent
-            path: Wallpapers.getThumbnailPath(root.modelData.path)
-            smooth: !root.PathView.view.moving
-            sourceSize: {
-                const dpr = (QsWindow.window as QsWindow)?.devicePixelRatio ?? 1;
-                return Qt.size(image.implicitWidth * dpr, image.implicitHeight * dpr);
+            source: {
+                if (root.modelData.name === "project.json")
+                    return Wallpapers.getThumbnailPath(root.modelData.path);
+                return root.modelData.path;
             }
-            onStatusChanged: {
-                if (status === Image.Error && Images.isVideo(root.modelData.name)) {
-                    if (!thumbGenerator.running) {
-                        thumbGenerator.running = true;
-                    }
-                }
-            }
+            playing: (root.PathView.isCurrentItem && PersistentState.wallpaperPlaying) || stateLayer.containsMouse
         }
     }
 
@@ -112,11 +97,14 @@ Item {
                 let content = CUtils.readFile(root.modelData.path);
                 try {
                     let json = JSON.parse(content);
-                    if (json.title) return json.title;
-                } catch (e) {}
+                    if (json.title)
+                        return json.title;
+                } catch (e) {
+                    // Fall through to the directory name
+                }
                 return root.modelData.path.split('/').slice(-2, -1)[0];
             }
-            return root.modelData.name;
+            return root.modelData.relativePath;
         }
         font: Tokens.font.label.medium
     }

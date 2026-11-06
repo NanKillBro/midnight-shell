@@ -8,7 +8,7 @@
 
 using Qt::StringLiterals::operator""_s;
 
-namespace caelestia {
+namespace caelestia::shell {
 
 enum class Opcode : int32_t {
     Handshake = 0,
@@ -175,4 +175,4 @@ void DiscordIpc::clearActivity() {
     sendFrame(static_cast<int>(Opcode::Frame), payload);
 }
 
-} // namespace caelestia
+} // namespace caelestia::shell

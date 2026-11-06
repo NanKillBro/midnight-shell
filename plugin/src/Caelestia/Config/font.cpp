@@ -2,7 +2,7 @@
 
 #include "appearanceconfig.hpp"
 
-namespace caelestia::config {
+namespace caelestia::shell::config {
 
 namespace {
 
@@ -278,4 +278,4 @@ void FontTokens::bindTokens(AppearanceTokens* tokens) {
     m_tokens = tokens;
 }
 
-} // namespace caelestia::config
+} // namespace caelestia::shell::config
