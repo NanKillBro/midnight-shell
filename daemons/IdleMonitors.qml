@@ -6,6 +6,7 @@ import Quickshell.Wayland
 import Quickshell.Services.UPower
 import Caelestia.Config
 import Caelestia.Services
+import Caelestia.State
 import qs.services
 import qs.modules.lock
 
@@ -21,6 +22,36 @@ Scope {
         if (GlobalConfig.general.idle.inhibitWhenCharging && isCharging)
             return false;
         return true;
+    }
+    readonly property bool keepAwake: PersistentState.inhibitIdle
+
+    function classifyAction(action: var): var {
+        let actions = [];
+        if (typeof action === "string")
+            actions = [action];
+        else if (action && typeof action.length === "number")
+            actions = Array.from(action);
+
+        const kinds = {
+            lock: false,
+            sleep: false,
+            screenOff: false
+        };
+
+        for (const a of actions) {
+            if (typeof a !== "string")
+                continue;
+
+            const cmd = a.trim();
+            if (cmd === "dpms off" || cmd === "dpms disable" || (cmd.startsWith("hl.dsp.dpms") && cmd.includes("disable")))
+                kinds.screenOff = true;
+            if (cmd.includes("lock"))
+                kinds.lock = true;
+            if (cmd.includes("suspend") || cmd.includes("hibernate") || cmd.includes("sleep"))
+                kinds.sleep = true;
+        }
+
+        return kinds;
     }
 
     function handleIdleAction(action: var): void {
@@ -59,9 +90,12 @@ Scope {
 
         IdleMonitor {
             required property var modelData
+            readonly property var actionKinds: root.classifyAction(modelData.idleAction)
 
             enabled: {
                 if (!root.enabled || !(modelData.enabled ?? true))
+                    return false;
+                if (root.keepAwake && (actionKinds.lock || actionKinds.sleep))
                     return false;
                 if (modelData.inhibitWhenAudio && root.hasPlayer)
                     return false;
@@ -70,7 +104,7 @@ Scope {
                 return true;
             }
             timeout: modelData.timeout
-            respectInhibitors: modelData.respectInhibitors ?? true
+            respectInhibitors: root.keepAwake && actionKinds.screenOff ? false : (modelData.respectInhibitors ?? true)
             onIsIdleChanged: root.handleIdleAction(isIdle ? modelData.idleAction : modelData.returnAction)
         }
     }
