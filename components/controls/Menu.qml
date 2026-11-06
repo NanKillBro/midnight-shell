@@ -23,10 +23,10 @@ MouseArea {
     }
 
     required property Item attachTo
-    property int attachSideX: Menu.Right
-    property int attachSideY: Menu.Bottom
-    property int thisSideX: Menu.Right
-    property int thisSideY: Menu.Top
+    property int attachSideX: Menu.Side.Right
+    property int attachSideY: Menu.Side.Bottom
+    property int thisSideX: Menu.Side.Right
+    property int thisSideY: Menu.Side.Top
     property real marginX
     property real marginY
 
