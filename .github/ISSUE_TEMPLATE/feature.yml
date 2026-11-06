@@ -1,6 +1,7 @@
 name: Feature request
 description: Suggest a new feature
 labels: ["enhancement"]
+type: "Feature"
 title: "[FEATURE] "
 body:
   - type: markdown
@@ -11,15 +12,11 @@ body:
     attributes:
       label: "What would you like to be added?"
       description: "Can be a suggestion for an existing feature. You can suggest a widget, minor user interaction changes.. whatever."
-    validations:
-      required: true
 
   - type: textarea
     attributes:
       label: "How will it help?"
       description: "It's helpful to include examples (like in your use case)."
-    validations:
-      required: true
 
   - type: textarea
     attributes:

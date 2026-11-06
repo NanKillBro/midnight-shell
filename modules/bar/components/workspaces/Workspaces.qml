@@ -8,14 +8,14 @@ import Caelestia.Config
 import qs.components
 import qs.services
 
-StyledClippingRect {
+ClipRect {
     id: root
 
     required property ShellScreen screen
     required property bool fullscreen
 
-    readonly property bool onSpecial: (GlobalConfig.bar.workspaces.perMonitorWorkspaces ? Hypr.monitorFor(screen) : Hypr.focusedMonitor)?.lastIpcObject.specialWorkspace?.name !== ""
-    readonly property int activeWsId: GlobalConfig.bar.workspaces.perMonitorWorkspaces ? (Hypr.monitorFor(screen).activeWorkspace?.id ?? 1) : Hypr.activeWsId
+    readonly property bool onSpecial: (Hypr.monitorFor(screen))?.lastIpcObject.specialWorkspace?.name !== ""
+    readonly property int activeWsId: (Hypr.monitorFor(screen).activeWorkspace?.id ?? 1)
 
     readonly property var occupied: {
         const occ = {};

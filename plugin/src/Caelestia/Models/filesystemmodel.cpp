@@ -1,6 +1,7 @@
 #include "filesystemmodel.hpp"
 
 #include <qdiriterator.h>
+#include <qmediaformat.h>
 #include <qtconcurrentrun.h>
 
 #include <algorithm>
@@ -187,11 +188,11 @@ void FileSystemModel::setSortReverse(bool sortReverse) {
     update();
 }
 
-FileSystemModel::Filter FileSystemModel::filter() const {
+FileSystemModel::Filters FileSystemModel::filter() const {
     return m_filter;
 }
 
-void FileSystemModel::setFilter(Filter filter) {
+void FileSystemModel::setFilter(Filters filter) {
     if (m_filter == filter) {
         return;
     }
@@ -231,7 +232,7 @@ void FileSystemModel::watchDirIfRecursive(const QString& path) {
                 filters |= QDir::Hidden;
             }
 
-            QDirIterator iter(path, filters, QDirIterator::Subdirectories | QDirIterator::FollowSymlinks);
+            QDirIterator iter(path, filters, QDirIterator::Subdirectories);
             QStringList dirs;
             while (iter.hasNext()) {
                 dirs << iter.next();
@@ -301,8 +302,7 @@ void FileSystemModel::updateEntriesForDir(const QString& dir) {
     }
 
     auto future = QtConcurrent::run([=](QPromise<PathDiff>& promise) {
-        const auto flags =
-            recursive ? (QDirIterator::Subdirectories | QDirIterator::FollowSymlinks) : QDirIterator::FollowSymlinks;
+        const auto flags = recursive ? QDirIterator::Subdirectories : QDirIterator::NoIteratorFlags;
         const auto newPaths = scanDir(dir, filtersFor(filter, nameFilters, showHidden), flags, promise);
         if (!newPaths)
             return;
@@ -327,35 +327,47 @@ void FileSystemModel::updateEntriesForDir(const QString& dir) {
 }
 
 FileSystemModel::ScanFilters FileSystemModel::filtersFor(
-    Filter filter, const QStringList& nameFilters, bool showHidden) {
+    Filters filter, const QStringList& nameFilters, bool showHidden) {
     ScanFilters filters;
     filters.nameFilters = nameFilters;
 
-    if (filter == Filter::Images) {
-        const auto formats = QImageReader::supportedImageFormats();
-        for (const auto& format : formats)
-            filters.nameFilters << u"*."_s + QString::fromUtf8(format);
+    const bool images = filter.testFlag(Filter::Images);
+    const bool videos = filter.testFlag(Filter::Videos);
+    const bool allFiles = filter.testFlag(Filter::Files);
+    const bool dirs = filter.testFlag(Filter::Dirs);
 
-        filters.filterFn = [](const QString& path) {
-            return QImageReader(path).canRead();
+    if (!allFiles && (images || videos)) {
+        if (images) {
+            const auto formats = QImageReader::supportedImageFormats();
+            for (const auto& format : formats)
+                filters.nameFilters << u"*."_s + QString::fromUtf8(format);
+        }
+
+        QSet<QString> videoMimeTypes;
+        if (videos) {
+            const auto formats = QMediaFormat().supportedFileFormats(QMediaFormat::Decode);
+            for (const auto format : formats) {
+                const auto mimeType = QMediaFormat(format).mimeType();
+                if (!mimeType.name().startsWith(u"video/"_s))
+                    continue;
+                videoMimeTypes << mimeType.name();
+                filters.nameFilters << mimeType.globPatterns();
+            }
+        }
+
+        filters.filterFn = [images, videoMimeTypes](const QString& path) {
+            return (images && QImageReader(path).canRead()) ||
+                   videoMimeTypes.contains(QMimeDatabase().mimeTypeForFile(path).name());
         };
     }
 
-    // Video extensions for the wallpaper picker
-    if (filter == Filter::Videos) {
-        static const QStringList videoExtensions = {
-            u"mp4"_s, u"webm"_s, u"mkv"_s, u"avi"_s, u"mov"_s, u"wmv"_s, u"flv"_s
-        };
-        for (const auto& ext : videoExtensions)
-            filters.nameFilters << u"*."_s + ext;
-    }
-
-    if (filter == Filter::Files || filter == Filter::Images || filter == Filter::Videos)
-        filters.filters = QDir::Files;
-    else if (filter == Filter::Dirs)
-        filters.filters = QDir::Dirs | QDir::NoDotAndDotDot;
-    else
-        filters.filters = QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot;
+    const bool files = allFiles || images || videos;
+    if (!files && !dirs)
+        filters.filters = QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot;
+    if (files)
+        filters.filters |= QDir::Files;
+    if (dirs)
+        filters.filters |= QDir::Dirs | QDir::NoDotAndDotDot;
 
     if (showHidden)
         filters.filters |= QDir::Hidden;

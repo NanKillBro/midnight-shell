@@ -58,7 +58,7 @@ Item {
         }
     }
 
-    StyledClippingRect {
+    ClipRect {
         id: image
 
         anchors.horizontalCenter: parent.horizontalCenter

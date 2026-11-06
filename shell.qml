@@ -12,6 +12,7 @@ import Caelestia.Config
 import qs.components.containers
 import qs.utils
 import qs.services
+import qs.daemons
 import "modules"
 import "modules/drawers"
 import "modules/background"
@@ -34,7 +35,6 @@ ShellRoot {
     }
 
     GSFLoader {}
-    ServiceLoader {}
 
     Background {}
     DesktopLyricsOverlay {}
@@ -57,22 +57,31 @@ ShellRoot {
     }
 
     Shortcuts {}
-
-    Component.onCompleted: {
-        Qt.callLater(() => {
-            Weather.reload();
-            PastafarianCalendar.reload();
-        });
-    }
     BatteryMonitor {}
+    GameMode {}
+    IdleInhibit {}
     IdleMonitors {
         lock: lock
     }
     BluetoothReconnect {}
 
+    Component.onCompleted: {
+        // Force certain singletons to load on shell init instead of lazily
+        Notifs;
+        Players;
+        Brightness;
+
+        if (GlobalConfig.utilities.vpn.enabled)
+            VPN;
+
+        Qt.callLater(() => {
+            Weather.reload();
+            PastafarianCalendar.reload();
+        });
+    }
+
     // Force service initialization
     property var _arpcInit: DiscordRPC
-    property var _gameModeInit: GameMode
     property var _pipInit: PipManager
     property var _systemTrayInit: SystemTray
 }

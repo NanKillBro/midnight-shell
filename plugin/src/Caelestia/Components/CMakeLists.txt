@@ -9,6 +9,7 @@ qml_module(caelestia-components
         linearindicatormanager.cpp
         sparklineitem.cpp
         visualiserbars.cpp
+        roundedmask.cpp
     LIBRARIES
         Qt::Gui
         Qt::Quick
@@ -17,11 +18,12 @@ qml_module(caelestia-components
         Caelestia
 )
 
-qt_add_shaders(caelestia-components "component_shaders"
+qt_add_shaders(caelestia-components "components_shaders"
     BATCHABLE OPTIMIZED NOHLSL NOMSL
     GLSL "300es,330"
     PREFIX "/"
     FILES
+        shaders/roundedmask.frag
+        shaders/roundedmask.vert
         shaders/visualiser.frag
 )
-

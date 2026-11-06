@@ -8,6 +8,7 @@ import Quickshell.Services.UPower
 import Quickshell.Io
 import Caelestia
 import Caelestia.Config
+import Caelestia.State
 
 import qs.services
 import qs.utils
@@ -82,10 +83,10 @@ Singleton {
         let newPaused = false;
         let reason = "None";
 
-        // Rule #0 — Manual / Config Pause
-        if (root.cfgVideoPaused || manualPause) {
+        // Rule #0 — Manual / Config / State Pause (the quick toggle writes PersistentState.wallpaperPlaying)
+        if (!PersistentState.wallpaperPlaying || root.cfgVideoPaused || manualPause) {
             newPaused = true;
-            reason = "Manual / Config Pause";
+            reason = !PersistentState.wallpaperPlaying ? "Wallpaper playing toggle" : "Manual / Config Pause";
         } else if (pauseOnBattery && UPower.onBattery) {
             newPaused = true;
             reason = "Battery";
@@ -147,6 +148,13 @@ Singleton {
     Connections {
         target: UPower
         function onOnBatteryChanged() {
+            recalcTimer.restart();
+        }
+    }
+
+    Connections {
+        target: PersistentState
+        function onWallpaperPlayingChanged() {
             recalcTimer.restart();
         }
     }

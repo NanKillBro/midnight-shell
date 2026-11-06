@@ -7,6 +7,7 @@ import Quickshell.Services.Mpris
 import Caelestia
 import Caelestia.Config
 import Caelestia.I18n
+import Caelestia.Services
 import qs.components.misc
 
 Singleton {
@@ -76,19 +77,66 @@ Singleton {
         Toaster.toast(Tr.tr("Now playing"), Tr.trCtx("%1 - %2", "track artist and title").arg(artist).arg(title), "music_note");
     }
 
-    onActiveChanged: lastNowPlayingKey = ""
+    // The Lyrics service is the single source of truth for both the dashboard
+    // media tab and the desktop lyrics overlay. Keep it in sync here so neither
+    // view has to call setTrack/clearTrack itself: a view that is created late
+    // (or an overlay whose Loader finished before the metadata arrived) must
+    // not be the only thing that can kick off a load.
+    //
+    // Views acquire/release a consumer slot so lyrics are only fetched while
+    // something can actually display them. The first consumer forces a load
+    // for the current track; metadata signals keep it up to date afterwards.
+    property int lyricsConsumers: 0
+
+    function syncLyrics(force): void {
+        if (!force && lyricsConsumers <= 0)
+            return;
+        const player = root.active;
+        if (player && (player.trackArtist || player.trackTitle))
+            Lyrics.setTrack(player.trackArtist, player.trackTitle, player.trackAlbum, player.length);
+        else
+            Lyrics.clearTrack();
+    }
+
+    function acquireLyrics(): void {
+        lyricsConsumers++;
+        if (lyricsConsumers === 1)
+            syncLyrics(true);
+    }
+
+    function releaseLyrics(): void {
+        lyricsConsumers = Math.max(0, lyricsConsumers - 1);
+    }
+
+    onActiveChanged: {
+        lastNowPlayingKey = "";
+        syncLyrics();
+    }
+
+    Component.onCompleted: syncLyrics()
 
     Connections {
         function onPostTrackChanged(): void {
             root.maybeToastNowPlaying();
+            root.syncLyrics();
         }
 
         function onTrackTitleChanged(): void {
             root.maybeToastNowPlaying();
+            root.syncLyrics();
         }
 
         function onTrackArtistChanged(): void {
             root.maybeToastNowPlaying();
+            root.syncLyrics();
+        }
+
+        function onTrackAlbumChanged(): void {
+            root.syncLyrics();
+        }
+
+        function onLengthChanged(): void {
+            root.syncLyrics();
         }
 
         target: root.active

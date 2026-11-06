@@ -18,18 +18,8 @@ Item {
     readonly property real fadeAmount: 0.1
     property list<string> lyricList: Lyrics.lyrics
 
-    function reloadTrack() {
-        const p = Players.active;
-        if (p) {
-            Lyrics.setTrack(p.trackArtist, p.trackTitle, p.trackAlbum, p.length);
-        } else {
-            Lyrics.clearTrack();
-        }
-    }
-
-    Component.onCompleted: {
-        root.reloadTrack();
-    }
+    Component.onCompleted: Players.acquireLyrics()
+    Component.onDestruction: Players.releaseLyrics()
 
     layer.enabled: true
     layer.effect: Mask {
@@ -154,23 +144,6 @@ Item {
             }
         }
     ]
-
-    Connections {
-        function onActiveChanged() {
-            root.reloadTrack();
-        }
-
-        target: Players
-    }
-
-    Connections {
-        function onPostTrackChanged() {
-            root.reloadTrack();
-        }
-
-        target: Players.active
-        ignoreUnknownSignals: true
-    }
 
     Loader {
         id: loadingIndicator

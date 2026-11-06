@@ -3,6 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell
 import Caelestia.Config
+import Caelestia.State
 import qs.components
 import qs.services
 import qs.utils
@@ -14,7 +15,7 @@ MaterialIcon {
 
     animate: true
     text: {
-        if (Notifs.dnd)
+        if (PersistentState.doNotDisturb)
             return "notifications_off";
         if (Notifs.notClosed.length > 0)
             return "notifications_unread";
@@ -29,7 +30,7 @@ MaterialIcon {
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         onClicked: mouse => {
             if (mouse.button === Qt.RightButton) {
-                Notifs.dnd = !Notifs.dnd;
+                PersistentState.doNotDisturb = !PersistentState.doNotDisturb;
             } else {
                 const vis = Visibilities.getForActive();
                 vis.sidebar = !vis.sidebar;
