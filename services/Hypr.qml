@@ -101,8 +101,8 @@ Singleton {
         return name.startsWith("special:") ? name.slice("special:".length) : name;
     }
 
-    function toplevelsForWs(ws: int, ignoredTags = []): list<HyprlandToplevel> {
-        return toplevels.values.filter(t => t.workspace && t.workspace.id === ws && !isToplevelIgnored(t, ignoredTags));
+    function toplevelsForWs(ws: var, ignoredTags = []): list<HyprlandToplevel> {
+        return toplevels.values.filter(t => t.workspace && (typeof ws === "string" ? t.workspace.name === ws : t.workspace.id === ws) && !isToplevelIgnored(t, ignoredTags));
     }
 
     function isToplevelIgnored(toplevel: HyprlandToplevel, ignoredTags = []): bool {

@@ -289,7 +289,6 @@ Item {
 
         required property HyprlandWorkspace modelData
         readonly property int size: isHorizontal ? (label.Layout.preferredWidth + (hasWindows ? windows.implicitWidth + Tokens.padding.extraSmall : 0)) : (label.Layout.preferredHeight + (hasWindows ? windows.implicitHeight + Tokens.padding.extraSmall : 0))
-        property int wsId
         property string icon
         property bool hasWindows
 
@@ -306,27 +305,19 @@ Item {
         rowSpacing: 0
 
         Component.onCompleted: {
-            wsId = modelData.id;
             icon = Icons.getSpecialWsIcon(modelData.name);
             hasWindows = Config.bar.workspaces.showWindowsOnSpecialWorkspaces && modelData.lastIpcObject.windows > 0;
         }
 
         Connections {
-            function onIdChanged(): void {
-                if (ws.modelData)
-                    ws.wsId = ws.modelData.id;
-            }
-
             function onNameChanged(): void {
                 if (ws.modelData)
                     ws.icon = Icons.getSpecialWsIcon(ws.modelData.name);
             }
 
             function onLastIpcObjectChanged(): void {
-                if (ws.modelData) {
+                if (ws.modelData)
                     ws.hasWindows = root.Config.bar.workspaces.showWindowsOnSpecialWorkspaces && ws.modelData.lastIpcObject.windows > 0;
-                    ws.wsId = ws.modelData.id;
-                }
             }
 
             target: ws.modelData
@@ -427,7 +418,7 @@ Item {
                 Repeater {
                     model: ScriptModel {
                         values: {
-                            const windows = Hypr.toplevelsForWs(ws.wsId);
+                            const windows = Hypr.toplevelsForWs(ws.modelData.name);
                             const maxIcons = root.Config.bar.workspaces.maxWindowIcons;
                             return maxIcons > 0 ? windows.slice(0, maxIcons) : windows;
                         }
@@ -471,7 +462,7 @@ Item {
                 Repeater {
                     model: ScriptModel {
                         values: {
-                            const windows = Hypr.toplevels.values.filter(c => c.workspace?.id === ws.wsId);
+                            const windows = Hypr.toplevelsForWs(ws.modelData.name);
                             const maxIcons = root.Config.bar.workspaces.maxWindowIcons;
                             return maxIcons > 0 ? windows.slice(0, maxIcons) : windows;
                         }
