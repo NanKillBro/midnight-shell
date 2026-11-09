@@ -38,7 +38,6 @@ ShellRoot {
 
     Background {}
     DesktopLyricsOverlay {}
-    BadAppleOverlay {}
 
     Drawers {}
     AreaPicker {}

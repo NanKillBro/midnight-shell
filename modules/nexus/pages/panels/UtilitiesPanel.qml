@@ -180,14 +180,6 @@ PageBase {
         }
 
         ToggleRow {
-            text: qsTr("Bad Apple")
-            subtext: qsTr("Play the Bad Apple animation")
-            disabled: !Config.utilities.cards.quickToggles
-            checked: root.isToggleOn("badapple")
-            onToggled: root.setToggleOn("badapple", checked)
-        }
-
-        ToggleRow {
             text: qsTr("Pause video wallpaper")
             subtext: qsTr("Pause or resume the video wallpaper")
             disabled: !Config.utilities.cards.quickToggles

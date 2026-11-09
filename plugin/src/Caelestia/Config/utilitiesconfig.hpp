@@ -108,7 +108,6 @@ class UtilitiesConfig : public settings::ObjectNode {
             LIST_ENTRY(dnd, true),
             LIST_ENTRY(vpn, false),
             LIST_ENTRY(wallpaper, true),
-            LIST_ENTRY(badapple, true),
             LIST_ENTRY(pauseWallpaper, true),
             LIST_ENTRY(pipPause, true),
         }))

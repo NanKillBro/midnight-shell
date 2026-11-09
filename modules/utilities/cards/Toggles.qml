@@ -14,7 +14,6 @@ import qs.services
 import qs.utils
 import qs.modules.nexus
 import qs.modules.bar.popouts as BarPopouts
-import "../../background"
 
 StyledRect {
     id: root
@@ -170,20 +169,6 @@ StyledRect {
                             const newState = !QuickShare.isEnabled;
                             QuickShare.setEnabled(newState);
                             QuickShare.setVisible(newState);
-                        }
-                    }
-                }
-                DelegateChoice {
-                    roleValue: "badapple"
-                    delegate: Toggle {
-                        icon: "nutrition"
-                        isToggle: false
-                        inactiveOnColour: Colours.palette.m3onSurfaceVariant
-                        onClicked: {
-                            if (BadApplePlayer.shouldPlay)
-                                BadApplePlayer.stop();
-                            else
-                                BadApplePlayer.play();
                         }
                     }
                 }
