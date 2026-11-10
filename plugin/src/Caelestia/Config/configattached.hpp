@@ -60,7 +60,7 @@ public:
     [[nodiscard]] const AudioConfig* audio() const;
     [[nodiscard]] const AiConfig* ai() const;
 
-    [[nodiscard]] Q_INVOKABLE static ConfigRoot* forScreen(const QString& screen);
+    [[nodiscard]] Q_INVOKABLE static caelestia::shell::config::ConfigRoot* forScreen(const QString& screen);
 
     static Config* qmlAttachedProperties(QObject* object);
 
