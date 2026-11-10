@@ -52,13 +52,25 @@ PageBase {
         }
 
         ToggleRow {
-            last: true
             text: qsTr("Show seconds")
             configNode: root.targetConfig.bar.clock
             propertyName: "showSeconds"
             checked: root.targetConfig.bar.clock.showSeconds
             onToggled: {
                 root.targetConfig.bar.clock.showSeconds = checked;
+                root.targetConfig.save();
+            }
+        }
+
+        ToggleRow {
+            last: true
+            text: qsTr("Popout on hover")
+            subtext: qsTr("Show a calendar when hovering the clock")
+            configNode: root.targetConfig.bar.popouts
+            propertyName: "clock"
+            checked: root.targetConfig.bar.popouts.clock
+            onToggled: {
+                root.targetConfig.bar.popouts.clock = checked;
                 root.targetConfig.save();
             }
         }

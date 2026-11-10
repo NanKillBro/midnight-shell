@@ -130,6 +130,7 @@ Item {
 
         sourceComponent: Content {
             popouts: popoutState
+            screenState: root.screenState
         }
     }
 
