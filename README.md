@@ -28,6 +28,7 @@ that fork plus:
 | **Bar — active-window position** ([issue #58](https://github.com/dim-ghub/midnight-shell/issues/58)) | The centre section floats in the free gap between the start and end sections instead of being pinned to the bar's midpoint, so it rises as the tray/clock/power group grows — matching upstream caelestia's behaviour. The title's elision width is derived from the same gap, so titles no longer truncate to `Desk...`. | [`8d76a07d`](https://github.com/NanKillBro/midnight-shell/commit/8d76a07d) |
 | **Bar — active-window stale title** | Closing a Hyprland special workspace (SUPER+D/M/R) onto an empty desktop used to leave the Active Window label on the overlay's window title instead of `Desktop`. Quickshell ignores Hyprland's empty `activewindowv2` event, so its last toplevel stays stale; the fork filter now also requires the focused monitor to report that same special workspace as open, while the normal-workspace check is unchanged. | [`774968eb`](https://github.com/NanKillBro/midnight-shell/commit/774968eb) |
 | **Bar — special-workspace icons** | Every special-workspace button used to show the same app icons: Hyprland 0.57 reports workspace id `-1` for all special workspaces, so the icon lookup matched every special window. Windows are now matched by workspace name, so each overlay shows only its own app icons; the area picker uses the same name-based lookup. | [`7180a7af`](https://github.com/NanKillBro/midnight-shell/commit/7180a7af) |
+| **Bar — clock calendar popout** | Hovering the bar clock opens a calendar popout that reuses the dashboard calendar and shares its month state, so navigation stays in sync. The popout is toggled by `bar.popouts.clock` (Nexus → Taskbar → Clock) and sized by `sizes.bar.clockCalendarWidth` (default 340). | [`142f3f4c`](https://github.com/NanKillBro/midnight-shell/commit/142f3f4c) |
 | **Launcher — uwsm** | Apps launched from the launcher run through `uwsm app --`, so they register with the systemd user session. The non-terminal path replaces `entry.execute()`, which only forwarded the command to `Quickshell.execDetached`, so behaviour is otherwise unchanged. | [`a2031eab`](https://github.com/NanKillBro/midnight-shell/commit/a2031eab) |
 | **Utilities — popup stability** | The utilities panel content loads synchronously and stays loaded once ready (`status === Loader.Ready`) instead of being an async loader destroyed on every close. The panel height and slide animation derive from the content, so previously every open slid up as a ~22px stub and popped a second time when the async content landed ~200–260 ms later (seconds under CPU load). | [`02c3ccb0`](https://github.com/NanKillBro/midnight-shell/commit/02c3ccb0) |
 | **Menus — popup offset** | Every `Menu`-based popup opened shifted right by its own width and could fall off-screen near the display edge. The four side defaults (`Menu.Right`, `Menu.Bottom`, `Menu.Top`) resolved to the inherited `Item.TransformOrigin` members instead of the component's `Side` enum, so the x binding skipped its width subtraction. Fully qualifying the defaults as `Menu.Side.*` makes menus right-align to their attach item again. | [`7984f5fb`](https://github.com/NanKillBro/midnight-shell/commit/7984f5fb) |
@@ -49,7 +50,7 @@ This fork adds the following features on top of the official shell:
 - **Wallpapers**: GIF/video support with auto-pause, plus Wallhaven integration.
 - **Games**: Playable Chrome Dino runner embedded in the notification dock.
 - **Dashboard**: Developer console terminal tab with history and autocomplete.
-- **Bar**: MacOS-style app dock, Material workspace icons, DND toggle, and a live drag-and-drop components editor.
+- **Bar**: MacOS-style app dock, Material workspace icons, DND toggle, a clock hover calendar, and a live drag-and-drop components editor.
 - **Desktop**: Floating lyrics, Shimeji pets, dynamic wallpaper recoloring, and Bezel Mode.
 - **Lock Screen**: Configurable auto-lock on startup (`lockOnStartup`), redesigned profile and clock layout, and improved forecast UI.
 - **Hyprland**: Full support for the new Lua-based window focus and dispatching commands (`hl.dsp`).
@@ -774,7 +775,8 @@ For example, to automatically hide the bar on the monitor named `DP-1`:
         "popouts": {
             "activeWindow": true,
             "tray": true,
-            "statusIcons": true
+            "statusIcons": true,
+            "clock": true
         },
         "workspaces": {
             "shown": 5,
