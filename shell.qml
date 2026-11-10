@@ -59,6 +59,7 @@ ShellRoot {
     BatteryMonitor {}
     GameMode {}
     IdleInhibit {}
+    JoyWakeDaemon {}
     IdleMonitors {
         lock: lock
     }

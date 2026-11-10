@@ -663,6 +663,8 @@ For example, to automatically hide the bar on the monitor named `DP-1`:
             "lockBeforeSleep": true,
             "inhibitWhenAudio": true,
             "inhibitWhenCharging": false,
+            "inhibitWhenJoystick": true,
+            "joystickTimeout": 30,
             "timeouts": [
                 {
                     "timeout": 180,
@@ -959,6 +961,8 @@ For example, to automatically hide the bar on the monitor named `DP-1`:
         },
         "idle": {
             "inhibitWhenAudio": true,
+            "inhibitWhenJoystick": true,
+            "joystickTimeout": 30,
             "lockBeforeSleep": true,
             "timeouts": [
                 {

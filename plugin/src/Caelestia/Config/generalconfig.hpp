@@ -42,6 +42,8 @@ class GeneralIdle : public settings::ObjectNode {
     CONFIG_PROPERTY(bool, lockBeforeSleep, true)
     CONFIG_PROPERTY(bool, inhibitWhenAudio, true)
     CONFIG_PROPERTY(bool, inhibitWhenCharging, false)
+    CONFIG_PROPERTY(bool, inhibitWhenJoystick, true)
+    CONFIG_PROPERTY(int, joystickTimeout, 30)
     CONFIG_LIST(GeneralIdleTimeoutList, timeouts,
         DEFAULT_ARG({
             vmap({

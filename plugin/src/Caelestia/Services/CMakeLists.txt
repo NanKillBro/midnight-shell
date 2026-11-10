@@ -29,6 +29,8 @@ qml_module(caelestia-services
         lyrics.cpp
         sessionmanager.cpp
         sessionmanager.hpp
+        joywake.cpp
+        joywake.hpp
         discordipc.cpp
         discordipc.hpp
         networkusage.cpp
@@ -52,6 +54,7 @@ qml_module(caelestia-services
         PkgConfig::Pipewire
         PkgConfig::Aubio
         PkgConfig::Cava
+        PkgConfig::Udev
         Sensors::Sensors
         protobuf::libprotobuf
         OpenSSL::Crypto

@@ -20,6 +20,8 @@ Scope {
             return false;
         if (GlobalConfig.general.idle.inhibitWhenCharging && isCharging)
             return false;
+        if (GlobalConfig.general.idle.inhibitWhenJoystick && JoyWake.active)
+            return false;
         return true;
     }
 

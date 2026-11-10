@@ -39,6 +39,7 @@ depends=(
     'swappy'
     'libqalculate'
     'qt6-m3shapes'
+    'systemd-libs'
 )
 
 makedepends=(

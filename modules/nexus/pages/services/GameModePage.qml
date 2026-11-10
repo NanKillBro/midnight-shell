@@ -165,5 +165,36 @@ PageBase {
                 root.targetConfig.save();
             }
         }
+
+        SectionHeader {
+            text: qsTr("Controller & idle")
+        }
+
+        ToggleRow {
+            first: true
+            text: qsTr("Controller keeps awake")
+            subtext: qsTr("Inhibit lock, screen off and suspend while a controller or joystick is in use")
+            configNode: root.targetConfig.general.idle
+            propertyName: "inhibitWhenJoystick"
+            checked: root.targetConfig.general.idle.inhibitWhenJoystick
+            onToggled: {
+                root.targetConfig.general.idle.inhibitWhenJoystick = checked;
+                root.targetConfig.save();
+            }
+        }
+
+        StepperRow {
+            last: true
+            label: qsTr("Controller hold time")
+            subtext: qsTr("Seconds to stay awake after the last controller input")
+            value: root.targetConfig.general.idle.joystickTimeout
+            from: 5
+            to: 120
+            stepSize: 5
+            onMoved: v => {
+                root.targetConfig.general.idle.joystickTimeout = v;
+                root.targetConfig.save();
+            }
+        }
     }
 }
