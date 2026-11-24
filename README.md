@@ -387,7 +387,7 @@ For example, to automatically hide the bar on the monitor named `DP-1`:
 > - `dashboard`: `mediaUpdateInterval`, `profilePicShape`, `resourceUpdateInterval`
 > - `general`: `apps.*`, `battery.*`, `idle.*`, `language`, `logo`
 > - `launcher`: `actionPrefix`, `actions`, `emoji`, `enableDangerousActions`, `favouriteApps`, `hiddenApps`, `specialPrefix`, `useFuzzy.*`, `vimKeybinds`
-> - `lock`: `enableFprint`, `enableHowdy`, `maxFprintTries`, `maxHowdyTries`, `triggerHowdyOnWake`
+> - `lock`: `enableFaceAuth`, `enableFprint`, `faceAuthProvider`, `maxFaceAuthTries`, `maxFprintTries`, `triggerFaceAuthOnWake`
 > - `nexus`: `networkRescanInterval`
 > - `notifs`: `actionOnClick`, `defaultExpireTimeout`, `expire`, `fullscreen`, `fullscreenExpireTimeout`
 > - `paths`: `lyricsDir`, `wallpaperDir`
@@ -1186,9 +1186,11 @@ For example, to automatically hide the bar on the monitor named `DP-1`:
         "maxFprintTries": 3,
         "profilePicShape": 12,
         "recolourLogo": true,
-        "enableHowdy": true,
-        "maxHowdyTries": 3,
-        "triggerHowdyOnWake": true
+        "enableFaceAuth": true,
+        "faceAuthProvider": "Howdy",
+        "maxFaceAuthTries": 3,
+        "triggerFaceAuthOnWake": true,
+        "enableSessionControls": true
     },
     "nexus": {
         "networkRescanInterval": 15000,
